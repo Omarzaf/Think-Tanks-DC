@@ -1,0 +1,260 @@
+import type { Ideology, RevolvingDoorEntry } from './types';
+
+export const ideologyMap: Record<string, Ideology> = {
+  'America First Policy Institute': 'Right',
+  'American Enterprise Institute': 'Center-Right',
+  'American Foreign Policy Council': 'Center-Right',
+  'Asia Society Policy Institute': 'Center',
+  'Aspen Institute': 'Center',
+  'Atlantic Council': 'Center',
+  'Belfer Center for Science and International Relations': 'Center',
+  'Berggruen Institute': 'Center-Left',
+  'Brookings Institution': 'Center-Left',
+  'Carnegie Endowment for International Peace': 'Center',
+  'Caspian Policy Center': 'Center',
+  'Cato Institute': 'Right',
+  'Center for a New American Security': 'Center',
+  'Center for American Progress': 'Left',
+  'Center for Economic and Policy Research': 'Left',
+  'Center for Global Development': 'Center-Left',
+  'Center for Immigration Studies': 'Right',
+  'Center for International Policy': 'Left',
+  'Center for Security Policy': 'Right',
+  'Center for Strategic and Budgetary Assessments': 'Center-Right',
+  'Center for Strategic and International Studies': 'Center',
+  'Center for the National Interest': 'Center-Right',
+  'Center for Transatlantic Relations': 'Center',
+  'Center on Budget and Policy Priorities': 'Center-Left',
+  'Chicago Council on Global Affairs': 'Center',
+  'Council on Foreign Relations': 'Center',
+  'Demos': 'Left',
+  'Discovery Institute': 'Right',
+  'Economic Policy Institute': 'Center-Left',
+  'Foreign Policy Research Institute': 'Center',
+  'Foundation for Defense of Democracies': 'Center-Right',
+  'Freedom House': 'Center',
+  'Gatestone Institute': 'Right',
+  'German Marshall Fund': 'Center',
+  'Global Center on Cooperative Security': 'Center',
+  'Global Security Institute': 'Center',
+  'Global Taiwan Institute': 'Center',
+  'Heartland Institute': 'Right',
+  'Heritage Foundation': 'Right',
+  'Hoover Institution': 'Center-Right',
+  'Hudson Institute': 'Center-Right',
+  'Human Rights Watch': 'Center-Left',
+  'Independent Institute': 'Right',
+  'Information Technology & Innovation Foundation': 'Center',
+  'Institute for the Study of Global Antisemitism and Policy': 'Center-Right',
+  'Institute for the Study of War': 'Center',
+  'Inter-American Dialogue': 'Center',
+  'International Peace Institute': 'Center',
+  'Israel Policy Forum': 'Center',
+  'Jack Gordon Institute for Public Policy': 'Center',
+  'Manhattan Institute for Policy Research': 'Center-Right',
+  'Mercatus Center': 'Right',
+  'Middle East Forum': 'Right',
+  'Middle East Institute': 'Center',
+  'Middle East Policy Council': 'Center',
+  'National Bureau of Asian Research': 'Center',
+  'New America': 'Center-Left',
+  'Newlines Institute for Strategy and Policy': 'Center',
+  'Niskanen Center': 'Center',
+  'Nuclear Threat Initiative': 'Center',
+  'Pacific Council': 'Center',
+  'Pacific Forum International': 'Center',
+  'Peterson Institute for International Economics': 'Center',
+  'Potomac Institute for Policy Studies': 'Center-Right',
+  'Quincy Institute for Responsible Statecraft': 'Left',
+  'R Street': 'Center-Right',
+  'RAND': 'Center',
+  'Stimson Center': 'Center',
+  'The Arab Gulf States Institute': 'Center',
+  'The Jewish Institute For National Security Of America': 'Center-Right',
+  'The Vandenberg Coalition': 'Center-Right',
+  'Third Way': 'Center-Left',
+  'Washington Institute for Near East Policy': 'Center-Right',
+  'Wilson Center': 'Center',
+  'Yorktown Institute': 'Center-Right',
+};
+
+export const foundingYearMap: Record<string, number> = {
+  'America First Policy Institute': 2021,
+  'American Enterprise Institute': 1938,
+  'American Foreign Policy Council': 1982,
+  'Asia Society Policy Institute': 2014,
+  'Aspen Institute': 1949,
+  'Atlantic Council': 1961,
+  'Belfer Center for Science and International Relations': 1973,
+  'Berggruen Institute': 2010,
+  'Brookings Institution': 1916,
+  'Carnegie Endowment for International Peace': 1910,
+  'Caspian Policy Center': 2016,
+  'Cato Institute': 1977,
+  'Center for a New American Security': 2007,
+  'Center for American Progress': 2003,
+  'Center for Economic and Policy Research': 1999,
+  'Center for Global Development': 2001,
+  'Center for Immigration Studies': 1985,
+  'Center for International Policy': 1975,
+  'Center for Security Policy': 1988,
+  'Center for Strategic and Budgetary Assessments': 1997,
+  'Center for Strategic and International Studies': 1962,
+  'Center for the National Interest': 1994,
+  'Center for Transatlantic Relations': 2001,
+  'Center on Budget and Policy Priorities': 1981,
+  'Chicago Council on Global Affairs': 1922,
+  'Council on Foreign Relations': 1921,
+  'Demos': 2000,
+  'Discovery Institute': 1990,
+  'Economic Policy Institute': 1986,
+  'Foreign Policy Research Institute': 1955,
+  'Foundation for Defense of Democracies': 2001,
+  'Freedom House': 1941,
+  'Gatestone Institute': 2012,
+  'German Marshall Fund': 1972,
+  'Global Center on Cooperative Security': 2011,
+  'Global Security Institute': 1999,
+  'Global Taiwan Institute': 2016,
+  'Heartland Institute': 1984,
+  'Heritage Foundation': 1973,
+  'Hoover Institution': 1919,
+  'Hudson Institute': 1961,
+  'Human Rights Watch': 1978,
+  'Independent Institute': 1986,
+  'Information Technology & Innovation Foundation': 2006,
+  'Institute for the Study of Global Antisemitism and Policy': 2015,
+  'Institute for the Study of War': 1942,
+  'Inter-American Dialogue': 1982,
+  'International Peace Institute': 1970,
+  'Israel Policy Forum': 1993,
+  'Jack Gordon Institute for Public Policy': 2008,
+  'Manhattan Institute for Policy Research': 1977,
+  'Mercatus Center': 1980,
+  'Middle East Forum': 1994,
+  'Middle East Institute': 1946,
+  'Middle East Policy Council': 1981,
+  'National Bureau of Asian Research': 1989,
+  'New America': 1999,
+  'Newlines Institute for Strategy and Policy': 2019,
+  'Niskanen Center': 2014,
+  'Nuclear Threat Initiative': 2001,
+  'Pacific Council': 1995,
+  'Pacific Forum International': 1975,
+  'Peterson Institute for International Economics': 1981,
+  'Potomac Institute for Policy Studies': 1994,
+  'Quincy Institute for Responsible Statecraft': 2019,
+  'R Street': 2012,
+  'RAND': 1948,
+  'Stimson Center': 1989,
+  'The Arab Gulf States Institute': 2015,
+  'The Jewish Institute For National Security Of America': 1976,
+  'The Vandenberg Coalition': 2021,
+  'Third Way': 2005,
+  'Washington Institute for Near East Policy': 1985,
+  'Wilson Center': 1968,
+  'Yorktown Institute': 2020,
+};
+
+export const revolvingDoorData: RevolvingDoorEntry[] = [
+  // Brookings Institution
+  { person: 'Strobe Talbott', thinkTank: 'Brookings Institution', govPosition: 'Deputy Secretary of State', govAgency: 'State Department', direction: 'gov-to-tank' },
+  { person: 'Susan Rice', thinkTank: 'Brookings Institution', govPosition: 'National Security Advisor', govAgency: 'White House', direction: 'both' },
+  { person: 'Martin Indyk', thinkTank: 'Brookings Institution', govPosition: 'Ambassador to Israel', govAgency: 'State Department', direction: 'both' },
+  { person: 'Ben Bernanke', thinkTank: 'Brookings Institution', govPosition: 'Federal Reserve Chair', govAgency: 'Federal Reserve', direction: 'gov-to-tank' },
+  { person: 'Fiona Hill', thinkTank: 'Brookings Institution', govPosition: 'Senior Director, European Affairs', govAgency: 'NSC', direction: 'both' },
+
+  // Heritage Foundation
+  { person: 'Edwin Meese', thinkTank: 'Heritage Foundation', govPosition: 'Attorney General', govAgency: 'DOJ', direction: 'gov-to-tank' },
+  { person: 'Kay Coles James', thinkTank: 'Heritage Foundation', govPosition: 'Director, OPM', govAgency: 'Office of Personnel Management', direction: 'both' },
+  { person: 'Paul Weyrich', thinkTank: 'Heritage Foundation', govPosition: 'Senate Staffer', govAgency: 'US Congress', direction: 'gov-to-tank' },
+  { person: 'Russell Vought', thinkTank: 'Heritage Foundation', govPosition: 'OMB Director', govAgency: 'Office of Management and Budget', direction: 'both' },
+
+  // American Enterprise Institute
+  { person: 'John Bolton', thinkTank: 'American Enterprise Institute', govPosition: 'National Security Advisor', govAgency: 'White House', direction: 'both' },
+  { person: 'Paul Wolfowitz', thinkTank: 'American Enterprise Institute', govPosition: 'Deputy Secretary of Defense', govAgency: 'Department of Defense', direction: 'gov-to-tank' },
+  { person: 'Lynne Cheney', thinkTank: 'American Enterprise Institute', govPosition: 'NEH Chair', govAgency: 'National Endowment for the Humanities', direction: 'both' },
+  { person: 'Richard Perle', thinkTank: 'American Enterprise Institute', govPosition: 'Chair, Defense Policy Board', govAgency: 'Department of Defense', direction: 'both' },
+  { person: 'Frederick Kagan', thinkTank: 'American Enterprise Institute', govPosition: 'Advisor to Gen. Petraeus', govAgency: 'Department of Defense', direction: 'tank-to-gov' },
+
+  // Center for a New American Security (CNAS)
+  { person: 'Michèle Flournoy', thinkTank: 'Center for a New American Security', govPosition: 'Under Secretary of Defense for Policy', govAgency: 'Department of Defense', direction: 'both' },
+  { person: 'Kurt Campbell', thinkTank: 'Center for a New American Security', govPosition: 'Deputy Secretary of State', govAgency: 'State Department', direction: 'both' },
+  { person: 'Victoria Nuland', thinkTank: 'Center for a New American Security', govPosition: 'Under Secretary of State', govAgency: 'State Department', direction: 'both' },
+  { person: 'Colin Kahl', thinkTank: 'Center for a New American Security', govPosition: 'Under Secretary of Defense for Policy', govAgency: 'Department of Defense', direction: 'both' },
+
+  // RAND
+  { person: 'James Schlesinger', thinkTank: 'RAND', govPosition: 'Secretary of Defense / CIA Director', govAgency: 'Department of Defense', direction: 'tank-to-gov' },
+  { person: 'Daniel Ellsberg', thinkTank: 'RAND', govPosition: 'Defense Analyst', govAgency: 'Department of Defense', direction: 'both' },
+  { person: 'Condoleezza Rice', thinkTank: 'RAND', govPosition: 'Secretary of State / NSA', govAgency: 'State Department', direction: 'tank-to-gov' },
+  { person: 'Zalmay Khalilzad', thinkTank: 'RAND', govPosition: 'Ambassador to Afghanistan/Iraq/UN', govAgency: 'State Department', direction: 'both' },
+
+  // Council on Foreign Relations
+  { person: 'Richard Haass', thinkTank: 'Council on Foreign Relations', govPosition: 'Director of Policy Planning', govAgency: 'State Department', direction: 'gov-to-tank' },
+  { person: 'Hillary Clinton', thinkTank: 'Council on Foreign Relations', govPosition: 'Secretary of State', govAgency: 'State Department', direction: 'gov-to-tank' },
+  { person: 'Robert Rubin', thinkTank: 'Council on Foreign Relations', govPosition: 'Secretary of the Treasury', govAgency: 'Treasury Department', direction: 'gov-to-tank' },
+
+  // Center for Strategic and International Studies (CSIS)
+  { person: 'John Hamre', thinkTank: 'Center for Strategic and International Studies', govPosition: 'Deputy Secretary of Defense', govAgency: 'Department of Defense', direction: 'gov-to-tank' },
+  { person: 'Zbigniew Brzezinski', thinkTank: 'Center for Strategic and International Studies', govPosition: 'National Security Advisor', govAgency: 'White House', direction: 'gov-to-tank' },
+  { person: 'Henry Kissinger', thinkTank: 'Center for Strategic and International Studies', govPosition: 'Secretary of State / NSA', govAgency: 'State Department', direction: 'gov-to-tank' },
+  { person: 'Kathleen Hicks', thinkTank: 'Center for Strategic and International Studies', govPosition: 'Deputy Secretary of Defense', govAgency: 'Department of Defense', direction: 'both' },
+
+  // Carnegie Endowment for International Peace
+  { person: 'William Burns', thinkTank: 'Carnegie Endowment for International Peace', govPosition: 'CIA Director', govAgency: 'CIA', direction: 'both' },
+  { person: 'Jessica Mathews', thinkTank: 'Carnegie Endowment for International Peace', govPosition: 'NSC Director, Global Affairs', govAgency: 'NSC', direction: 'gov-to-tank' },
+  { person: 'Robert Kagan', thinkTank: 'Carnegie Endowment for International Peace', govPosition: 'State Dept Policy Advisor', govAgency: 'State Department', direction: 'both' },
+
+  // Atlantic Council
+  { person: 'James L. Jones', thinkTank: 'Atlantic Council', govPosition: 'National Security Advisor', govAgency: 'White House', direction: 'gov-to-tank' },
+  { person: 'Chuck Hagel', thinkTank: 'Atlantic Council', govPosition: 'Secretary of Defense', govAgency: 'Department of Defense', direction: 'both' },
+  { person: 'Frederick Kempe', thinkTank: 'Atlantic Council', govPosition: 'NATO Advisory Council', govAgency: 'NATO', direction: 'both' },
+
+  // Hudson Institute
+  { person: 'Mike Pompeo', thinkTank: 'Hudson Institute', govPosition: 'Secretary of State / CIA Director', govAgency: 'State Department', direction: 'gov-to-tank' },
+  { person: 'H.R. McMaster', thinkTank: 'Hudson Institute', govPosition: 'National Security Advisor', govAgency: 'White House', direction: 'gov-to-tank' },
+  { person: 'Scooter Libby', thinkTank: 'Hudson Institute', govPosition: 'Chief of Staff to VP', govAgency: 'White House', direction: 'gov-to-tank' },
+
+  // Center for American Progress
+  { person: 'John Podesta', thinkTank: 'Center for American Progress', govPosition: 'White House Chief of Staff / Climate Envoy', govAgency: 'White House', direction: 'both' },
+  { person: 'Neera Tanden', thinkTank: 'Center for American Progress', govPosition: 'Director, Domestic Policy Council', govAgency: 'White House', direction: 'tank-to-gov' },
+  { person: 'Tom Daschle', thinkTank: 'Center for American Progress', govPosition: 'Senate Majority Leader', govAgency: 'US Congress', direction: 'gov-to-tank' },
+
+  // Hoover Institution
+  { person: 'George Shultz', thinkTank: 'Hoover Institution', govPosition: 'Secretary of State', govAgency: 'State Department', direction: 'gov-to-tank' },
+  { person: 'Condoleezza Rice', thinkTank: 'Hoover Institution', govPosition: 'Secretary of State / NSA', govAgency: 'State Department', direction: 'both' },
+  { person: 'John Taylor', thinkTank: 'Hoover Institution', govPosition: 'Under Secretary of Treasury', govAgency: 'Treasury Department', direction: 'both' },
+
+  // German Marshall Fund
+  { person: 'Karen Donfried', thinkTank: 'German Marshall Fund', govPosition: 'Assistant Secretary of State, European Affairs', govAgency: 'State Department', direction: 'both' },
+  { person: 'Derek Chollet', thinkTank: 'German Marshall Fund', govPosition: 'Counselor, State Department', govAgency: 'State Department', direction: 'both' },
+
+  // New America
+  { person: 'Anne-Marie Slaughter', thinkTank: 'New America', govPosition: 'Director of Policy Planning', govAgency: 'State Department', direction: 'gov-to-tank' },
+  { person: 'Rosa Brooks', thinkTank: 'New America', govPosition: 'Counselor to Under Secretary of Defense', govAgency: 'Department of Defense', direction: 'both' },
+
+  // Foundation for Defense of Democracies
+  { person: 'Mark Dubowitz', thinkTank: 'Foundation for Defense of Democracies', govPosition: 'Iran Policy Advisor', govAgency: 'Treasury Department', direction: 'tank-to-gov' },
+  { person: 'John Hannah', thinkTank: 'Foundation for Defense of Democracies', govPosition: 'National Security Advisor to VP', govAgency: 'White House', direction: 'gov-to-tank' },
+
+  // Wilson Center
+  { person: 'Jane Harman', thinkTank: 'Wilson Center', govPosition: 'U.S. Representative', govAgency: 'US Congress', direction: 'gov-to-tank' },
+  { person: 'Lee Hamilton', thinkTank: 'Wilson Center', govPosition: 'U.S. Representative / 9-11 Commission Co-Chair', govAgency: 'US Congress', direction: 'gov-to-tank' },
+
+  // Middle East Institute
+  { person: 'Wendy Chamberlin', thinkTank: 'Middle East Institute', govPosition: 'Ambassador to Pakistan', govAgency: 'State Department', direction: 'gov-to-tank' },
+  { person: 'Gerald Feierstein', thinkTank: 'Middle East Institute', govPosition: 'Ambassador to Yemen', govAgency: 'State Department', direction: 'gov-to-tank' },
+
+  // Peterson Institute
+  { person: 'Adam Posen', thinkTank: 'Peterson Institute for International Economics', govPosition: 'Bank of England MPC Member', govAgency: 'Federal Reserve', direction: 'both' },
+  { person: 'C. Fred Bergsten', thinkTank: 'Peterson Institute for International Economics', govPosition: 'Assistant Secretary, Treasury', govAgency: 'Treasury Department', direction: 'gov-to-tank' },
+
+  // Cato Institute
+  { person: 'William Niskanen', thinkTank: 'Cato Institute', govPosition: 'Chair, Council of Economic Advisors', govAgency: 'White House', direction: 'gov-to-tank' },
+
+  // Quincy Institute
+  { person: 'Andrew Bacevich', thinkTank: 'Quincy Institute for Responsible Statecraft', govPosition: 'Army Colonel', govAgency: 'Department of Defense', direction: 'gov-to-tank' },
+
+  // Stimson Center
+  { person: 'Ellen Laipson', thinkTank: 'Stimson Center', govPosition: 'Vice Chair, NIC', govAgency: 'CIA', direction: 'gov-to-tank' },
+];
