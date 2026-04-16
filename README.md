@@ -1,3 +1,22 @@
+# Think-Tanks-DC: Macro-Analysis Dashboard
+
+This project provides a systems-level macro analysis of the epistemic community in Washington, D.C. It utilizes D3.js and React to visualize complex relationships concerning funding sources, personnel networks, and ideological trends across 75 think tanks.
+
+## Data Schema
+The analysis relies on structured datasets mapped in `src/data/types.ts`:
+* `ThinkTank`: Core entity tracking ideological leaning, personnel, transparency scores, and funding categorizations (e.g., Pentagon, Foreign Gov, Dark Money).
+* `Transaction`: Records discrete financial flows linking donors to think tanks.
+* `RevolvingDoorEntry`: Tracks individual transitions between government agencies, lobbying firms, and think tanks to map network centrality.
+
+## Analytical Framework
+The dashboard employs multiple visual frameworks to analyze systemic influence:
+* **Foreign Government Flows (Chord):** Maps dependencies and major funding channels from sovereign entities.
+* **Funding Concentration (Heatmap):** Assesses the distribution of disclosed versus undisclosed ("Dark Money") capital across the sector.
+* **Revolving Door Network (Network Graph):** Analyzes shared personnel to reveal clusters of institutional influence and cross-pollination.
+* **Money Flows (Sankey):** Traces the volume and pathways of financial support from broad donor types to specific institutions.
+* **Ideology & Funding (Treemap/Timeline):** Correlates ideological alignment with establishment trends and total capital deployment.
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
