@@ -11,72 +11,71 @@ interface PanelWrapperProps {
 export function PanelWrapper({ title, subtitle, children, legend }: PanelWrapperProps) {
   const [expanded, setExpanded] = useState(false);
 
-  const content = (
-    <div style={{
-      background: PANEL_BG,
-      borderRadius: 12,
-      border: `1px solid ${BORDER_COLOR}`,
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      overflow: 'hidden',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-    }}>
+  return (
+    <>
+      {expanded && (
+        <div
+          onClick={() => setExpanded(false)}
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.4)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 998,
+          }}
+        />
+      )}
       <div style={{
+        background: PANEL_BG,
+        borderRadius: 12,
+        border: `1px solid ${BORDER_COLOR}`,
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '14px 18px 10px',
-        borderBottom: `1px solid ${BORDER_COLOR}`,
-        flexShrink: 0,
-        background: '#fdfcfa',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        boxShadow: expanded ? '0 8px 32px rgba(0,0,0,0.18)' : '0 1px 3px rgba(0,0,0,0.06)',
+        ...(expanded
+          ? { position: 'fixed', top: 32, left: 32, right: 32, bottom: 32, zIndex: 999 }
+          : { height: '100%' }
+        ),
       }}>
-        <div>
-          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: TEXT_COLOR, letterSpacing: '-0.3px' }}>{title}</h3>
-          {subtitle && <p style={{ margin: '2px 0 0', fontSize: 11, color: TEXT_MUTED }}>{subtitle}</p>}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '14px 18px 10px',
+          borderBottom: `1px solid ${BORDER_COLOR}`,
+          flexShrink: 0,
+          background: '#fdfcfa',
+        }}>
+          <div>
+            <h3 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: TEXT_COLOR, letterSpacing: '-0.3px' }}>{title}</h3>
+            {subtitle && <p style={{ margin: '2px 0 0', fontSize: 11, color: TEXT_MUTED }}>{subtitle}</p>}
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            {legend}
+            <button
+              onClick={() => setExpanded(!expanded)}
+              style={{
+                background: 'none',
+                border: `1px solid ${BORDER_COLOR}`,
+                borderRadius: 6,
+                color: TEXT_MUTED,
+                cursor: 'pointer',
+                fontSize: 12,
+                padding: '3px 8px',
+                transition: 'background 0.15s',
+              }}
+              onMouseOver={e => (e.currentTarget.style.background = '#f5f5f0')}
+              onMouseOut={e => (e.currentTarget.style.background = 'transparent')}
+            >
+              {expanded ? '⊟' : '⊞'}
+            </button>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          {legend}
-          <button
-            onClick={() => setExpanded(!expanded)}
-            style={{
-              background: 'none',
-              border: `1px solid ${BORDER_COLOR}`,
-              borderRadius: 6,
-              color: TEXT_MUTED,
-              cursor: 'pointer',
-              fontSize: 12,
-              padding: '3px 8px',
-              transition: 'background 0.15s',
-            }}
-            onMouseOver={e => (e.currentTarget.style.background = '#f5f5f0')}
-            onMouseOut={e => (e.currentTarget.style.background = 'transparent')}
-          >
-            {expanded ? '⊟' : '⊞'}
-          </button>
+        <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: 0 }}>
+          {children}
         </div>
       </div>
-      <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minHeight: 0 }}>
-        {children}
-      </div>
-    </div>
+    </>
   );
-
-  if (expanded) {
-    return (
-      <div style={{
-        position: 'fixed',
-        top: 0, left: 0, right: 0, bottom: 0,
-        background: 'rgba(0,0,0,0.4)',
-        backdropFilter: 'blur(4px)',
-        zIndex: 999,
-        padding: 32,
-        display: 'flex',
-      }}>
-        <div style={{ flex: 1 }}>{content}</div>
-      </div>
-    );
-  }
-
-  return content;
 }

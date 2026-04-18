@@ -1,10 +1,11 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import type { Transaction } from '../data/types';
 import { TEXT_MUTED, formatCurrency } from '../utils/colorScales';
 import { getChordData } from '../utils/dataProcessing';
 import { PanelWrapper } from './PanelWrapper';
 import { useTooltip, TooltipBox } from './Tooltip';
+import { useResizeAwareDraw } from '../utils/useResizeAwareDraw';
 
 const WARM_PALETTE = ['#f59e0b', '#ef4444', '#f97316', '#eab308', '#d946ef', '#ec4899', '#f43f5e', '#fb923c', '#fbbf24', '#a855f7'];
 const COOL_PALETTE = ['#06b6d4', '#3b82f6', '#8b5cf6', '#22d3ee', '#6366f1', '#0ea5e9', '#14b8a6', '#67e8f9', '#818cf8', '#a78bfa'];
@@ -16,39 +17,29 @@ export function ChordPanel({ transactions }: { transactions: Transaction[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { tooltip, show, hide, ref: tooltipRef } = useTooltip();
 
-  useEffect(() => {
+  const draw = useCallback(() => {
     if (!svgRef.current || !containerRef.current) return;
     const container = containerRef.current;
     const width = container.clientWidth;
     const height = container.clientHeight || 400;
-    const radius = Math.min(width, height) / 2 - 80;
+    if (width === 0) return;
 
+    const radius = Math.min(width, height) / 2 - 80;
     const { countries, tanks, matrix } = getChordData(transactions);
     const names = [...countries, ...tanks];
-    const n = names.length;
-    if (n === 0) return;
+    if (names.length === 0) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
     svg.attr('width', width).attr('height', height);
 
-    const g = svg.append('g')
-      .attr('transform', `translate(${width / 2},${height / 2})`);
+    const g = svg.append('g').attr('transform', `translate(${width / 2},${height / 2})`);
 
-    const chord = d3.chord()
-      .padAngle(0.04)
-      .sortSubgroups(d3.descending);
-
+    const chord = d3.chord().padAngle(0.04).sortSubgroups(d3.descending);
     const chords = chord(matrix);
+    const arc = d3.arc<d3.ChordGroup>().innerRadius(radius).outerRadius(radius + 12);
+    const ribbon = d3.ribbon<any, any>().radius(radius - 1);
 
-    const arc = d3.arc<d3.ChordGroup>()
-      .innerRadius(radius)
-      .outerRadius(radius + 12);
-
-    const ribbon = d3.ribbon<any, any>()
-      .radius(radius - 1);
-
-    // Arcs
     g.selectAll('.arc')
       .data(chords.groups)
       .join('path')
@@ -65,23 +56,16 @@ export function ChordPanel({ transactions }: { transactions: Transaction[] }) {
         ribbonElems.attr('opacity', (r: any) =>
           r.source.index === d.index || r.target.index === d.index ? 0.7 : 0.05
         );
-        const name = names[d.index];
-        const total = d.value;
-        const isCountry = d.index < countries.length;
         show(event, (
           <div>
-            <div style={{ fontWeight: 600 }}>{name}</div>
-            <div>{isCountry ? 'Country/Org' : 'Think Tank'}</div>
-            <div>Total: {formatCurrency(total)}</div>
+            <div style={{ fontWeight: 600 }}>{names[d.index]}</div>
+            <div>{d.index < countries.length ? 'Country/Org' : 'Think Tank'}</div>
+            <div>Total: {formatCurrency(d.value)}</div>
           </div>
         ));
       })
-      .on('mouseout', () => {
-        ribbonElems.attr('opacity', 0.45);
-        hide();
-      });
+      .on('mouseout', () => { ribbonElems.attr('opacity', 0.45); hide(); });
 
-    // Labels
     g.selectAll('.label')
       .data(chords.groups)
       .join('text')
@@ -102,7 +86,6 @@ export function ChordPanel({ transactions }: { transactions: Transaction[] }) {
         return name.length > 18 ? name.substring(0, 17) + '…' : name;
       });
 
-    // Ribbons
     const ribbonElems = g.selectAll('.ribbon')
       .data(chords)
       .join('path')
@@ -114,21 +97,17 @@ export function ChordPanel({ transactions }: { transactions: Transaction[] }) {
       .style('cursor', 'pointer')
       .on('mouseover', function (event: MouseEvent, d: any) {
         d3.select(this).attr('opacity', 0.8);
-        const src = names[d.source.index];
-        const tgt = names[d.target.index];
         show(event, (
           <div>
-            <div style={{ fontWeight: 600 }}>{src} → {tgt}</div>
+            <div style={{ fontWeight: 600 }}>{names[d.source.index]} → {names[d.target.index]}</div>
             <div>{formatCurrency(d.source.value)}</div>
           </div>
         ));
       })
-      .on('mouseout', function () {
-        d3.select(this).attr('opacity', 0.45);
-        hide();
-      });
-
+      .on('mouseout', function () { d3.select(this).attr('opacity', 0.45); hide(); });
   }, [transactions, show, hide]);
+
+  useResizeAwareDraw(containerRef, draw);
 
   return (
     <PanelWrapper

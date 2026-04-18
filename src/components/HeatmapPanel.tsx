@@ -1,9 +1,10 @@
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useMemo, useCallback } from 'react';
 import * as d3 from 'd3';
 import type { ThinkTank } from '../data/types';
 import { TEXT_COLOR, TEXT_MUTED, formatCurrency } from '../utils/colorScales';
 import { PanelWrapper } from './PanelWrapper';
 import { useTooltip, TooltipBox } from './Tooltip';
+import { useResizeAwareDraw } from '../utils/useResizeAwareDraw';
 
 const COLUMNS = ['Foreign Gov', 'Pentagon', 'US Gov', 'Total', 'Transparency'];
 const COL_KEYS: (keyof ThinkTank)[] = ['foreignGov', 'pentagonContractor', 'usGov', 'totalFunding', 'transparencyScore'];
@@ -21,10 +22,12 @@ export function HeatmapPanel({ tanks }: { tanks: ThinkTank[] }) {
 
   const darkMoneyStart = useMemo(() => sorted.findIndex(t => t.isDarkMoney), [sorted]);
 
-  useEffect(() => {
+  const draw = useCallback(() => {
     if (!svgRef.current || !containerRef.current) return;
     const container = containerRef.current;
     const width = container.clientWidth;
+    if (width === 0) return;
+
     const cellH = 19;
     const leftMargin = 230;
     const topMargin = 36;
@@ -42,7 +45,6 @@ export function HeatmapPanel({ tanks }: { tanks: ThinkTank[] }) {
 
     const g = svg.append('g');
 
-    // Column headers
     COLUMNS.forEach((col, i) => {
       g.append('text')
         .attr('x', leftMargin + i * cellW + cellW / 2)
@@ -54,7 +56,6 @@ export function HeatmapPanel({ tanks }: { tanks: ThinkTank[] }) {
         .text(col);
     });
 
-    // Dark money separator
     if (darkMoneyStart > 0) {
       const sepY = topMargin + darkMoneyStart * cellH;
       g.append('line')
@@ -71,11 +72,9 @@ export function HeatmapPanel({ tanks }: { tanks: ThinkTank[] }) {
         .text(`DARK MONEY CLUSTER — ${sorted.length - darkMoneyStart} tanks with zero disclosed funding`);
     }
 
-    // Rows
     sorted.forEach((tank, ri) => {
       const y = topMargin + ri * cellH + (ri >= darkMoneyStart && darkMoneyStart >= 0 ? 18 : 0);
 
-      // Alternating row background
       if (ri % 2 === 0) {
         g.append('rect')
           .attr('x', 0).attr('y', y - 1)
@@ -84,7 +83,6 @@ export function HeatmapPanel({ tanks }: { tanks: ThinkTank[] }) {
           .attr('opacity', 0.5);
       }
 
-      // Tank name
       g.append('text')
         .attr('x', leftMargin - 8)
         .attr('y', y + cellH / 2 + 3.5)
@@ -94,19 +92,15 @@ export function HeatmapPanel({ tanks }: { tanks: ThinkTank[] }) {
         .attr('font-weight', tank.isDarkMoney ? 400 : 500)
         .text(tank.name.length > 35 ? tank.name.substring(0, 34) + '…' : tank.name);
 
-      // Cells
       COL_KEYS.forEach((key, ci) => {
         const val = tank[key] as number;
         let fill: string;
-
         if (key === 'transparencyScore') {
           fill = val === 0 ? '#f3f4f6' : transColorScale(val);
         } else {
-          if (val === 0) {
-            fill = tank.isDarkMoney ? '#f9fafb' : '#f3f4f6';
-          } else {
-            fill = colorScale(logScale(val));
-          }
+          fill = val === 0
+            ? (tank.isDarkMoney ? '#f9fafb' : '#f3f4f6')
+            : colorScale(logScale(val));
         }
 
         const rect = g.append('rect')
@@ -146,6 +140,8 @@ export function HeatmapPanel({ tanks }: { tanks: ThinkTank[] }) {
     });
   }, [sorted, darkMoneyStart, show, hide]);
 
+  useResizeAwareDraw(containerRef, draw);
+
   const legend = (
     <div style={{ display: 'flex', gap: 12, fontSize: 10, color: TEXT_MUTED, alignItems: 'center' }}>
       <span>$0</span>
@@ -156,11 +152,7 @@ export function HeatmapPanel({ tanks }: { tanks: ThinkTank[] }) {
   );
 
   return (
-    <PanelWrapper
-      title="Funding Heatmap"
-      subtitle="All 75 think tanks x 5 factors (log scale)"
-      legend={legend}
-    >
+    <PanelWrapper title="Funding Heatmap" subtitle="All 75 think tanks x 5 factors (log scale)" legend={legend}>
       <div ref={containerRef} style={{ position: 'relative', overflow: 'auto', height: '100%', padding: '0 4px' }}>
         <svg ref={svgRef} />
         <TooltipBox tooltip={tooltip} tooltipRef={tooltipRef} />

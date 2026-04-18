@@ -68,22 +68,22 @@ export default function App() {
         maxWidth: 1600,
         margin: '0 auto',
       }}>
-        <div style={{ minHeight: 520 }}>
+        <div style={{ height: 520 }}>
           <HeatmapPanel tanks={tanks} />
         </div>
-        <div style={{ minHeight: 450 }}>
+        <div style={{ height: 450 }}>
           <TreemapPanel tanks={tanks} />
         </div>
-        <div style={{ minHeight: 450 }}>
+        <div style={{ height: 450 }}>
           <TimelinePanel tanks={tanks} />
         </div>
-        <div style={{ minHeight: 550 }}>
+        <div style={{ height: 550 }}>
           <SankeyPanel transactions={transactions} />
         </div>
-        <div style={{ minHeight: 450 }}>
+        <div style={{ height: 450 }}>
           <NetworkPanel entries={revolvingDoorData} tanks={tanks} />
         </div>
-        <div style={{ minHeight: 520 }}>
+        <div style={{ height: 520 }}>
           <ChordPanel transactions={transactions} />
         </div>
       </main>
