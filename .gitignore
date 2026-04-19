@@ -23,3 +23,14 @@ dist-ssr
 *.sln
 *.sw?
 .github/workflows/
+# Archives
+*.zip
+*.tar.gz
+
+# AI/Editor configs
+.claude/
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
