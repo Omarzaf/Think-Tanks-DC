@@ -1,0 +1,103 @@
+THINK TANKS DC
+Research Methodology, Dataset Documentation & Use Cases
+
+This document describes the research methodology behind Think Tanks DC, an open-source investigative database mapping the funding relationships between 75 Washington DC think tanks and 149 identified donors across three structural categories: foreign governments, Pentagon contractors, and U.S. government agencies. The dataset covers 2,682 donation records spanning 2019–2024, drawn from think tank self-disclosed funding pages, IRS 990 filings via ProPublica Nonprofit Explorer, USASpending.gov, and OpenSecrets. This paper documents how the dataset was built, what analytical choices were made, what limitations apply, and what questions researchers, journalists, and practitioners can use it to investigate.
+1. Introduction
+Washington DC's think tank ecosystem is one of the most consequential and least understood institutions in American public life. Think tanks shape policy debates, supply personnel to administrations, brief members of Congress, and generate the expert consensus that media outlets quote. They are also systematically difficult to follow. Most operate as 501(c)(3) nonprofits, which legally permits them to conceal donor identities. Many define themselves as nonpartisan while receiving funding from sources with clear policy interests. And few face any binding disclosure obligation beyond whatever they choose to publish voluntarily.
+Think Tanks DC was built to address this gap. The project assembles, standardizes, and visualizes funding relationship data for 75 Washington DC think tanks, focusing specifically on three donor categories that have received the least scrutiny: foreign governments, Pentagon contractors, and U.S. government agencies. The central analytical question is whether think tanks that present themselves as independent research institutions function in practice as financially captured policy advocacy organizations. The dataset does not answer that question definitively — it supplies the evidentiary substrate that makes the question empirically tractable.
+This methodology document explains how the data was gathered, how variables were constructed, what the dataset can and cannot support, and how outside researchers, journalists, and students can use it productively.
+2. Scope and Coverage
+2.1 Institution Selection
+The dataset covers 75 Washington DC-area think tanks selected through a tiered approach. The primary tier consists of institutions that appear in the Center for International Policy's 2020 Foreign Influence Machine report, the New America Foundation's transparency initiative, Transparify's annual think tank ratings, and the Quincy Institute for Responsible Statecraft's original Foreign Government Contributions dataset. The secondary tier expands coverage to include prominent institutions not captured in those sources, selected based on media citation frequency, proximity to major policy debates (foreign policy, defense, technology, economics), and ideological diversity.
+The list deliberately spans the ideological spectrum — from American Enterprise Institute and Heritage Foundation on the right, through Brookings, CSIS, and Council on Foreign Relations at the center, to Quincy Institute and Data for Progress on the left — to allow cross-ideological comparison rather than producing a result that merely reflects the selection bias of the researcher.
+2.2 Donor Categories
+Three donor categories are tracked, chosen because they represent the most structurally significant — and most systematically underreported — funding relationships in the DC policy ecosystem:
+Foreign Governments: Direct contributions from foreign state governments or their sovereign wealth funds, state-owned enterprises, or official diplomatic missions. This category captures the most sensitive channel of foreign influence and is subject to ongoing legal debate following the Foreign Agents Registration Act (FARA) enforcement cases of the 2010s.
+Pentagon Contractors: Contributions from companies that hold active Department of Defense contracts. This category captures the revolving financial relationship between the defense industry and the policy institutions that shape defense budget debates and military doctrine.
+U.S. Government: Direct grants, contracts, and cooperative agreements from federal agencies — including the State Department, Department of Defense, USAID, and the National Endowment for Democracy — flowing to think tanks that simultaneously advise those agencies.
+
+Foundations, individual donors, and domestic corporations are explicitly excluded from this iteration of the dataset. This is a scoping decision, not an analytical judgment about their importance. IRS 990-PF private foundation filings have been identified as the primary pipeline for expanding coverage to foundation donors in a future phase.
+2.3 Temporal Coverage
+The dataset covers fiscal years 2019 through 2024. This window was chosen for three reasons: most institutions publish online transparency reports for this period; it spans two presidential administrations, enabling cross-administration pattern detection; and it predates the period in which major regulatory and disclosure changes might break comparability. Where institutions report funding as annual ranges rather than exact figures, the minimum of the range is recorded as the analytical floor.
+3. Data Sources
+All data in the dataset derives from primary or traceable secondary sources. No figures are estimated, modeled, or synthesized. Every row in the dataset carries a URL source link pointing to the specific disclosure page or government database entry from which it was drawn.
+3.1 Think Tank Self-Disclosed Funding Pages
+The primary source for most funding records is think tank transparency or funding disclosure pages maintained on institutional websites. Where institutions publish exact dollar amounts, those amounts are recorded in the Exact Amount field. Where institutions publish tiered ranges (e.g., '$100,000–$499,999'), the minimum of the range is recorded in the Minimum Donation field.
+The quality and granularity of these disclosures vary substantially. Some institutions — Stimson Center, New America Foundation, Open Society Policy Center — publish donor-level detail with fiscal year breakdowns and exact amounts. Others — American Enterprise Institute, Heritage Foundation, Cato Institute — publish no donor-level information whatsoever, disclosing only aggregate revenue figures in their annual reports. This variation is itself analytically meaningful and is captured in the Transparency Score variable.
+3.2 IRS Form 990 Data (ProPublica Nonprofit Explorer)
+For institutions that do not self-disclose donor-level information, IRS Form 990 Part I and Schedule A data was retrieved via ProPublica's Nonprofit Explorer API. Form 990 filings report total revenue, program service revenue, and government grants received — but do not, for 501(c)(3) organizations, require public disclosure of individual donor identities (a protection maintained under Schedule B confidentiality rules). 990 data, therefore, supplements self-disclosure rather than replacing it. Where 990 and self-disclosure figures conflict, the self-disclosure figure is used as the more granular source, and the discrepancy is flagged.
+The critical structural insight governing this dataset is that IRS Form 990-PF, filed by private foundations rather than public charities, does contain public grant recipient data. A private foundation that grants $500,000 to the Brookings Institution is required to disclose that grant in its 990-PF filing. This means private foundation funding flows, which are invisible in 501(c)(3) filings, are fully traceable through the funder side of the ledger. Systematic harvesting of 990-PF data via the Nonprofit Open Data Collective and the irs990efile R package is the primary identified pathway for expanding the dataset in Phase 2.
+3.3 USASpending.gov
+Federal grants and contracts flowing to think tanks were retrieved via USASpending.gov's Award Search API. Searches were conducted by recipient entity name for all 75 institutions. Records were filtered to awards from the Department of Defense, Department of State, USAID, and the National Endowment for Democracy, as these represent the agencies most likely to have ongoing relationships with policy research organizations. Federal contract vehicles — including IDIQ contracts, cost-plus agreements, and cooperative agreements — are included where the recipient is identified as a think tank.
+RAND Corporation's dominance of this category is the most striking empirical finding in the dataset. RAND's U.S. Government funding dwarfs the combined total of all other 74 institutions by a substantial margin, reflecting its unique status as a federally-funded research and development center (FFRDC) rather than a typical independent nonprofit.
+3.4 OpenSecrets
+OpenSecrets' nonprofit database and foreign lobbying disclosure data were used as a supplementary cross-reference for identifying donor-recipient relationships, particularly for foreign government contributions that were reported under FARA but not self-disclosed on think tank websites. OpenSecrets data was not used as a primary source for dollar amounts where discrepancies with self-disclosed or USASpending figures existed.
+4. Dataset Construction
+4.1 Schema Design
+The funding dataset consists of 2,682 rows, each representing a single donor-recipient-year funding relationship. The schema was designed to preserve the distinction between exact amounts and ranges, to maintain traceability to sources, and to allow aggregation at multiple levels (by institution, by donor type, by year, or by donor parent organization).
+
+4.2 Handling Funding Ranges
+A significant portion of think tank disclosures report funding in tiered ranges rather than exact amounts. A common tier structure follows the pattern: under $100,000; $100,000–$499,999; $500,000–$999,999; $1,000,000 and above. In these cases, the minimum of the reported range is used as the analytical value in the 'Minimum + Exact Donation' field, which is the basis for all quantitative aggregations in the visualization.
+4.3 Transparency Score Construction
+Each of the 75 institutions receives a Transparency Score on a 0–5 integer scale, constructed from the following criteria:
+(1 point) The institution maintains a public funding or transparency page at all times
+(1 point) The funding page lists individual donor names rather than aggregate totals only
+(1 point) Funding page includes dollar amounts or tiers, not just name lists
+(1 point) Disclosures are current (updated within the past 12 months at the time of data collection)
+(1 point) Institution discloses foreign government contributions specifically, without redaction
+
+A score of 0 indicates complete non-disclosure. A score of 5 indicates best-practice transparency. Thirty of the 75 institutions in the dataset received a score of 0, meaning no public funding disclosure of any kind was identified for this research. Twenty of those thirty score-zero institutions are classified as right-leaning based on their ideological positioning.
+This scoring system is author-constructed and does not reproduce any external rating nor make any claims on this limited pattern recognition. 
+4.4 Ideological Classification
+Each institution is classified with an ideology label, such as Right, Center-Right, Centrist, Center-Left, Left, or Libertarian.
+Labels are determined through a triangulated assessment using Media Bias/Fact Check ratings, AllSides.com think tank ratings, self-descriptions, donor profiles, and policy positions on key issues.
+The process avoids relying on any single authoritative source.
+In cases of conflicting information, a conservative classification is applied to avoid overstating ideological extremity.
+Ideology is treated as a categorical label rather than a numerical score. A one-dimensional ideology axis was considered and rejected for the final visualization because it misrepresents institutions whose positions are domain-specific (e.g., libertarian on economics, hawkish on foreign policy) or where domestic and foreign policy orientations diverge.
+5. Analytical Framework
+The project's analytical orientation is pattern detection before hypothesis testing. Rather than beginning with a claim about think tank capture and testing it, the dataset was built to surface patterns that prior research had asserted but not systematically documented at the institutional level.
+5.1 The Triple-Funding Pattern
+The most analytically significant finding is the set of institutions that simultaneously receive funding from all three donor categories: foreign governments, Pentagon contractors, and U.S. government agencies. Fourteen institutions meet this criterion in the dataset, and all fourteen are classified as centrist or center-left. This pattern represents the strongest structural evidence of potential conflict of interest, because these organizations are simultaneously receiving resources from foreign policy clients, defense industry actors, and the government agencies whose policies they analyze and advise.
+The dominance of centrist institutions in this category is an empirical finding, not an a priori assumption. Right-leaning institutions tend to receive no foreign government funding and minimal U.S. government funding, relying instead on domestic foundations and individual donors. Left-leaning institutions generally receive less Pentagon contractor funding. The centrist cluster occupies a distinct structural position in the funding ecosystem.
+5.2 Transparency as a Signal
+The Transparency Score functions as a standalone analytical variable rather than just a data quality indicator. Research indicates a potential correlation between high levels of foreign government funding and low transparency scores, suggesting that the most heavily funded institutions are not always the most transparent. However, an interpretive challenge exists: it is often hard to distinguish between institutions that do not disclose because they receive no foreign funds and those that receive such funds but choose to keep them confidential. This ambiguity represents a primary interpretive constraint for the dataset.
+This ambiguity is the most important interpretive constraint in the dataset, and it is stated prominently in the visualization's documentation.
+
+7. Limitations and Known Gaps
+7.1 Voluntary Disclosure as the Primary Bottleneck
+The dataset is fundamentally constrained by the voluntary nature of institutional disclosures.
+Verified funding data is nonexistent for the 30 institutions that received a zero transparency score because they chose not to disclose any donor information.
+Any analysis conducted is limited to a selected sample of disclosing institutions, as non-disclosing entities have empty funding records in the dataset by definition.
+The absence of disclosure should not be misinterpreted as an absence of funding.
+7.2 Floor-Only Aggregation Understates Totals
+Total funding figures in the dataset represent lower bounds because range disclosures are aggregated using their minimum values.
+Actual funding exceeds the figures shown by an unknowable amount, as the true total cannot be determined from the available data.
+This limitation is particularly significant for institutions disclosing funding in wide upper tiers, such as "$1,000,000+" without a specified ceiling.
+Quantitative comparisons of total funding between institutions should be regarded as comparisons of disclosed floors rather than actual magnitudes.
+7.3 Individual Donor Identities Are Not Tracked
+High-net-worth individual donors can represent the largest funding category for some right-leaning institutions.
+These donors are protected from disclosure under Schedule B of Form 990.
+This protection constitutes the most significant structural barrier in the dataset.
+This barrier cannot be resolved through open-source methods without access to non-public 990 filings or donor registries.
+7.4 Causation Cannot Be Inferred
+The dataset documents funding relationships but cannot prove they caused specific policy outcomes, publication choices, or hiring decisions.
+The primary methodological hurdle in think tank accountability research remains the significant gap between funding correlation and influence causation.
+To achieve causal inference, this funding data should be integrated with policy output tracking, media citation analysis, and personnel records, such as LittleSis revolving door data.
+7.5 Social Media and Recent Citation Data Are Not Available
+Planned systematic media citation tracking could not be completed because of significant data availability constraints.
+Access to the Twitter/X API became prohibitively expensive after 2023.
+Systematic newspaper citation data from GDELT TV 2.0 is effectively unavailable after 2012.
+Sources such as MediaCloud and OpenAlex offer only partial coverage for specific types of publications.
+The documentation of this gap is intended to assist future researchers in building upon these findings rather than repeating the same investigation.
+8. Suggested Use Cases
+8.1 Academic Research
+Test whether transparency disclosure correlates with ideological orientation, controlling for institutional age and budget size.
+Use the triple-funded institution cluster as a case study population for qualitative research on institutional independence and policy capture.
+Combine this dataset with LittleSis personnel data to investigate whether board membership or leadership networks predict funding type — specifically, whether institutions with more defense industry board members receive more Pentagon contractor funding.
+Extend the dataset backward to 2014–2018 using archived Wayback Machine transparency pages and compare pre/post Trump-era funding patterns.
+Compare foreign government funding distributions across presidential administrations to test whether geopolitical alignment shifts produce observable changes in think tank funding.
+8.2 Dataset Extension
+Download the raw CSV and extend it with IRS 990-PF data using the irs990efile R package or the Nonprofit Open Data Collective bulk XML pipeline — the methodology section identifies exactly which fields to populate.
+Extend the donor list to include domestic foundations by running the existing think tank list against ProPublica's foundation search and cross-referencing grant recipient data.
+Add a personnel/revolving door dimension by matching think tank leadership lists against LittleSis bulk data or the Furnas (2020) board interlock dataset.
+Add a media citations dimension by running institution names against GDELT TV 2.0 LowerThird data (available 2009–2012) or OpenAlex institution disambiguation for print citations.
