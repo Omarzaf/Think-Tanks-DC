@@ -16,6 +16,8 @@ The dashboard employs multiple visual frameworks to analyze systemic influence:
 * **Money Flows (Sankey):** Traces the volume and pathways of financial support from broad donor types to specific institutions.
 * **Ideology & Funding (Treemap/Timeline):** Correlates ideological alignment with establishment trends and total capital deployment.
 
+For Methodolody (link)
+https://docs.google.com/document/d/1kYJblAn-Q3YRhWEeDEOo69iDG5H4nCEhopisjMhg7eI/edit?usp=sharing
 
 # React + TypeScript + Vite
 
