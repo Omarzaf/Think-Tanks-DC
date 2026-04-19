@@ -1,5 +1,5 @@
-THINK TANKS DC
-Research Methodology, Dataset Documentation & Use Cases
+For Methodolody (link)
+https://docs.google.com/document/d/1kYJblAn-Q3YRhWEeDEOo69iDG5H4nCEhopisjMhg7eI/edit?usp=sharing
 
 This document describes the research methodology behind Think Tanks DC, an open-source investigative database mapping the funding relationships between 75 Washington DC think tanks and 149 identified donors across three structural categories: foreign governments, Pentagon contractors, and U.S. government agencies. The dataset covers 2,682 donation records spanning 2019–2024, drawn from think tank self-disclosed funding pages, IRS 990 filings via ProPublica Nonprofit Explorer, USASpending.gov, and OpenSecrets. This paper documents how the dataset was built, what analytical choices were made, what limitations apply, and what questions researchers, journalists, and practitioners can use it to investigate.
 1. Introduction
