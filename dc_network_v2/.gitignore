@@ -1,0 +1,14 @@
+.venv/
+.pytest_cache/
+.DS_Store
+__pycache__/
+*.pyc
+*.egg-info/
+data/raw/snapshots/
+data/staging/*.csv
+data/processed/*.parquet
+data/processed/*.json
+db/*.duckdb
+graph/*.graphml
+logs/*.log
+manifests/*.json

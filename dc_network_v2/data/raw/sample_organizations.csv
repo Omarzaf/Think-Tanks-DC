@@ -1,0 +1,8 @@
+source_id,name,entity_type,country,ideology,transparency_score,annual_budget_usd,policy_focus
+org-001,Atlantic Council,think_tank,USA,internationalist,0.22,65000000,security
+org-002,Brookings Institution,think_tank,USA,centrist,0.84,115000000,governance
+org-003,Center for Strategic and International Studies,think_tank,USA,internationalist,0.77,58000000,security
+org-004,Quincy Institute,think_tank,USA,restraint,0.91,9200000,foreign_policy
+org-005,Open Philanthropy,donor,USA,philanthropy,0.88,0,grantmaking
+org-006,Government of Norway,foreign_government,NOR,government,0.68,0,diplomacy
+org-007,Defense Contractor Consortium,industry_group,USA,industry,0.34,0,defense

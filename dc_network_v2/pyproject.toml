@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dc-network-v2"
+version = "0.1.0"
+description = "Think-tank network data pipeline with DuckDB, Parquet, GraphML, validation, and gap analysis."
+requires-python = ">=3.9"
+dependencies = [
+  "duckdb>=1.1.0",
+  "networkx>=3.2.1",
+  "pandas>=2.2.0",
+  "pyarrow>=15.0.0"
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+dc-network = "dc_network.cli:main"

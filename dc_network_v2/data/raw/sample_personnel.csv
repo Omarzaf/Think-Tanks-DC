@@ -1,0 +1,5 @@
+source_id,person_name,from_org,to_org,role,start_year,end_year,evidence_url
+person-001,Avery Clark,U.S. Department of State,Atlantic Council,senior fellow,2022,,https://example.org/avery-clark
+person-002,Jordan Lee,Brookings Institution,National Security Council,advisor,2021,2023,https://example.org/jordan-lee
+person-003,Sam Rivera,Center for Strategic and International Studies,Defense Contractor Consortium,consultant,2020,2022,https://example.org/sam-rivera
+person-004,Taylor Morgan,Quincy Inst.,Quincy Institute,program director,2023,,https://example.org/taylor-morgan

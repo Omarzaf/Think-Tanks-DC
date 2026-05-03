@@ -1,0 +1,12 @@
+{
+  "influence_weights": {
+    "incoming_funding": 0.45,
+    "network_pagerank": 0.35,
+    "personnel_degree": 0.20
+  },
+  "coverage_weights": {
+    "evidence_count": 0.55,
+    "transparency_score": 0.45
+  },
+  "gap_threshold": 0.05
+}

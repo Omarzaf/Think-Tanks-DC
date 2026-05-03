@@ -1,0 +1,6 @@
+source_id,donor_name,recipient_name,amount_usd,year,disclosure_level,evidence_url,evidence_quote
+fund-001,Government of Norway,Atlantic Council,2500000,2023,public,https://example.org/norway-atlantic-council,"Annual donor disclosure lists Norway as a contributor."
+fund-002,Defense Contractor Consortium,Center for Strategic and International Studies,1800000,2023,partial,https://example.org/csis-defense,"Defense industry grants appear in the annual donor band."
+fund-003,Open Philanthropy,Quincy Institute,1200000,2022,public,https://example.org/open-phil-quincy,"Grant database lists support for foreign policy research."
+fund-004,Government of Norway,Brookings Institution,900000,2021,public,https://example.org/norway-brookings,"Foreign government support appears in institutional disclosures."
+fund-005,Defense Contractor Consortium,Atlantic Council,750000,2022,partial,https://example.org/atlantic-defense,"Industry donors are reported in aggregate sponsor bands."

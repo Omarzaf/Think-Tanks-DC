@@ -1,0 +1,25 @@
+{
+  "root": "..",
+  "sources": {
+    "organizations": "../data/raw/sample_organizations.csv",
+    "funding": "../data/raw/sample_funding.csv",
+    "personnel": "../data/raw/sample_personnel.csv",
+    "aliases": "../data/raw/alias_table.csv"
+  },
+  "outputs": {
+    "raw_snapshots": "../data/raw/snapshots",
+    "staging": "../data/staging",
+    "processed": "../data/processed",
+    "duckdb": "../db/dc_network.duckdb",
+    "graphml": "../graph/dc_network.graphml",
+    "logs": "../logs/pipeline.log",
+    "manifests": "../manifests"
+  },
+  "entity_resolution": {
+    "fuzzy_threshold": 0.92
+  },
+  "edge_rules": {
+    "allowed_edge_types": ["funding", "personnel_transition"]
+  },
+  "scoring_config": "scoring.json"
+}
