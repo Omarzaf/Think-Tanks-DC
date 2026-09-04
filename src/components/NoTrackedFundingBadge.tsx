@@ -1,4 +1,4 @@
-export function DarkMoneyBadge({ count }: { count: number }) {
+export function NoTrackedFundingBadge({ count }: { count: number }) {
   return (
     <span style={{
       display: 'inline-flex',
@@ -12,7 +12,7 @@ export function DarkMoneyBadge({ count }: { count: number }) {
       fontWeight: 600,
       border: '1px solid #fecaca',
     }}>
-      {count} Dark Money Tanks
+      {count} No Tracked Category Funding
     </span>
   );
 }

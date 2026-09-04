@@ -8,14 +8,14 @@ import { TimelinePanel } from './components/TimelinePanel';
 import { SankeyPanel } from './components/SankeyPanel';
 import { NetworkPanel } from './components/NetworkPanel';
 import { ChordPanel } from './components/ChordPanel';
-import { DarkMoneyBadge } from './components/DarkMoneyBadge';
+import { NoTrackedFundingBadge } from './components/NoTrackedFundingBadge';
 import { BG_COLOR, TEXT_COLOR, TEXT_MUTED, BORDER_COLOR, formatCurrency } from './utils/colorScales';
 
 export default function App() {
   const tanks = useMemo(() => parseThinkTanks(), []);
-  const darkMoneyCount = useMemo(() => tanks.filter(t => t.isDarkMoney).length, [tanks]);
+  const noTrackedFundingCount = useMemo(() => tanks.filter(t => t.hasNoTrackedFunding).length, [tanks]);
   const totalFunding = useMemo(() => tanks.reduce((s, t) => s + t.totalFunding, 0), [tanks]);
-  const fundedCount = tanks.length - darkMoneyCount;
+  const trackedFundingCount = tanks.length - noTrackedFundingCount;
 
   return (
     <div style={{
@@ -36,7 +36,7 @@ export default function App() {
               DC Think Tank Funding Dashboard
             </h1>
             <p style={{ margin: '6px 0 0', fontSize: 14, color: TEXT_MUTED, maxWidth: 600 }}>
-              Are think tanks partisan lobbying shops in disguise? Exploring funding, ideology, and influence across 75 institutions.
+              Exploring disclosed funding, transparency, and institutional influence across 75 Washington-area think tanks.
             </p>
           </div>
           <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -46,7 +46,7 @@ export default function App() {
             </div>
             <div style={{ width: 1, height: 32, background: BORDER_COLOR }} />
             <div style={{ textAlign: 'center', padding: '0 12px' }}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: '#4338ca' }}>{fundedCount}</div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: '#4338ca' }}>{trackedFundingCount}</div>
               <div style={{ fontSize: 11, color: TEXT_MUTED, fontWeight: 500 }}>Disclosed</div>
             </div>
             <div style={{ width: 1, height: 32, background: BORDER_COLOR }} />
@@ -54,7 +54,7 @@ export default function App() {
               <div style={{ fontSize: 24, fontWeight: 700, color: '#111' }}>{formatCurrency(totalFunding)}</div>
               <div style={{ fontSize: 11, color: TEXT_MUTED, fontWeight: 500 }}>Total Tracked</div>
             </div>
-            <DarkMoneyBadge count={darkMoneyCount} />
+            <NoTrackedFundingBadge count={noTrackedFundingCount} />
           </div>
         </div>
       </header>
@@ -98,8 +98,7 @@ export default function App() {
         background: '#ffffff',
         lineHeight: 1.6,
       }}>
-        Data sourced from Think Tank Funding Tracker. {darkMoneyCount} of {tanks.length} think tanks ({Math.round(darkMoneyCount / tanks.length * 100)}%) disclose zero funding from foreign governments, Pentagon contractors, or U.S. government sources.
-        Revolving door data compiled from public records. Funding figures represent minimum disclosed amounts.
+        Funding rows come from think tank disclosures, IRS 990 references, USASpending.gov, and OpenSecrets cross-checks. {noTrackedFundingCount} of {tanks.length} think tanks ({Math.round(noTrackedFundingCount / tanks.length * 100)}%) have no tracked funding in the three sampled donor categories, which is not proof of no funding or undisclosed funding overall. Funding figures represent minimum disclosed amounts, and revolving-door data is compiled from public records.
       </footer>
     </div>
   );

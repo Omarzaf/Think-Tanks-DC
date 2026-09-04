@@ -20,4 +20,21 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    files: [
+      'src/components/ChordPanel.tsx',
+      'src/components/NetworkPanel.tsx',
+      'src/components/SankeyPanel.tsx',
+      'src/components/TreemapPanel.tsx',
+    ],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+  {
+    files: ['src/components/Tooltip.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])
