@@ -1,53 +1,81 @@
-# Think-Tanks-DC: Macro-Analysis Dashboard
+# Think-Tanks-DC
 
-This project provides a systems-level macro analysis of the epistemic community in Washington, D.C. It utilizes D3.js and React to visualize complex relationships concerning funding sources, personnel networks, and ideological trends across 75 think tanks.
+Think-Tanks-DC is a public React and D3 dashboard for exploring disclosed funding, transparency, and revolving-door patterns across 75 Washington-area think tanks. It packages the current research snapshot as a reproducible browser build and a source-auditable dataset surface.
 
-## Data Schema
-The analysis relies on structured datasets mapped in `src/data/types.ts`:
-* `ThinkTank`: Core entity tracking ideological leaning, personnel, transparency scores, and funding categorizations (e.g., Pentagon, Foreign Gov, Dark Money).
-* `Transaction`: Records discrete financial flows linking donors to think tanks.
-* `RevolvingDoorEntry`: Tracks individual transitions between government agencies, lobbying firms, and think tanks to map network centrality.
+## Status
 
-## Analytical Framework
-The dashboard employs multiple visual frameworks to analyze systemic influence:
-* **Foreign Government Flows (Chord):** Maps dependencies and major funding channels from sovereign entities.
-* **Funding Concentration (Heatmap):** Assesses the distribution of disclosed versus undisclosed ("Dark Money") capital across the sector.
-* **Revolving Door Network (Network Graph):** Analyzes shared personnel to reveal clusters of institutional influence and cross-pollination.
-* **Money Flows (Sankey):** Traces the volume and pathways of financial support from broad donor types to specific institutions.
-* **Ideology & Funding (Treemap/Timeline):** Correlates ideological alignment with establishment trends and total capital deployment.
+This repository is a maintained public research prototype. It is suitable for local analysis, GitHub Pages deployment, and code review, but it should not be treated as a comprehensive or final map of all think tank funding.
 
-## Getting Started*
-To run the Macro-Analysis Dashboard locally, follow these steps:
+## What It Covers
 
-Prerequisites
-Node.js (v18.0 or higher recommended)
+- 75 think tanks in the Washington policy ecosystem
+- 2,682 funding records spanning 2019 to 2024
+- Three sampled donor categories: foreign governments, Pentagon contractors, and U.S. government agencies
+- Public-record revolving-door context used for network views
 
-npm or yarn
+The dashboard does not track every funding stream. A think tank with no tracked funding in these sampled categories is not proven to have no funding, and the interface now labels that distinction explicitly.
 
-Installation
-Clone the repository:
+## Visualization Surface
 
-Bash
-git clone https://github.com/Omarzaf/Think-Tanks-DC.git
-cd Think-Tanks-DC
-Install dependencies:
+- `Funding Heatmap`: compares tracked funding, totals, and transparency scores
+- `Ideology & Funding`: treemap sized by tracked funding and grouped by ideology
+- `Timeline`: founding years and decade-level establishment patterns
+- `Money Flows`: donor-to-think-tank sankey for tracked transactions
+- `Foreign Government Flows`: chord diagram for cross-border funding relationships
+- `Revolving Door Network`: personnel network view based on public records
 
-Bash
-npm install
-Development
-Start the local development server:
+## Methodology And Sources
 
-Bash
-npm run dev
-The application will be available at http://localhost:5173.
+- Local methodology: [docs/METHODOLOGY.md](docs/METHODOLOGY.md)
+- Original share link preserved inside the methodology document
+- Primary source families documented in the repo:
+  - think tank self-disclosure pages
+  - IRS 990 references via ProPublica Nonprofit Explorer
+  - USASpending.gov
+  - OpenSecrets cross-checks
 
-Build and Deployment
-To create a production-ready bundle:
+Every transaction row in `src/data/transactions.ts` carries a source URL. Funding aggregates use floor values when institutions disclose ranges rather than exact figures.
 
-Bash
-npm run build
-The output will be generated in the dist/ directory, ready for hosting.
+## Setup
 
+This repo targets Node 22 and the repo-pinned `pnpm@11.10.0`.
 
-## License
-This project is licensed under the MIT License
+```bash
+corepack pnpm install --frozen-lockfile
+corepack pnpm dev
+```
+
+The local Vite server defaults to `http://127.0.0.1:5173/`.
+
+## Verification
+
+```bash
+corepack pnpm lint
+corepack pnpm test
+corepack pnpm build
+```
+
+The GitHub Pages workflow builds the same `dist/` output from `main`.
+
+## Limitations
+
+- The dataset is bounded to three donor categories and should not be read as a full funding census.
+- Zero tracked funding in this repo means no tracked funding in the sampled categories, not evidence of non-disclosure, dark money, or innocence.
+- Totals are lower bounds when the original disclosure reported a range.
+- Funding relationships do not by themselves establish policy causation.
+- A small number of legacy rows still have unresolved provenance gaps or archived wrapper URLs; treat those records as flagged research leads rather than fully normalized citations.
+- Data freshness depends on the underlying public disclosures cited in the dataset.
+
+## Support
+
+Open a GitHub issue for reproducible bugs, broken source links, or documentation errors. Repo-specific escalation policies are not promised; this repository inherits the owner's account-level community and security guidance.
+
+## Maintainer
+
+Maintained by Muhammad Umar Zafar.
+
+## License And Reuse Boundary
+
+The software in this repository is available under the MIT License. See [LICENSE](LICENSE).
+
+The underlying research data, source documents, screenshots, third-party marks, and cited public materials are not granted a blanket open-data or content license by the MIT software license. Reuse of those materials remains subject to their original terms, provenance, and applicable law.

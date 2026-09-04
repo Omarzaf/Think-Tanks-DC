@@ -95,7 +95,7 @@ export function parseThinkTanks(): ThinkTank[] {
       usGov,
       transparencyScore,
       totalFunding,
-      isDarkMoney: totalFunding === 0,
+      hasNoTrackedFunding: totalFunding === 0,
       ideology: ideologyMap[name] || 'Center',
       foundingYear: foundingYearMap[name] || 2000,
     };

@@ -5,7 +5,7 @@ export interface ThinkTank {
   usGov: number;
   transparencyScore: number;
   totalFunding: number;
-  isDarkMoney: boolean;
+  hasNoTrackedFunding: boolean;
   ideology: Ideology;
   foundingYear: number;
 }

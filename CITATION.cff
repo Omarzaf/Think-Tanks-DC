@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: Think-Tanks-DC
+message: Please cite this repository using the metadata below.
+type: software
+authors:
+  - given-names: Muhammad Umar
+    family-names: Zafar
+repository-code: https://github.com/Omarzaf/Think-Tanks-DC
+abstract: Public React and D3 dashboard for exploring disclosed funding, transparency, and revolving-door patterns across 75 Washington-area think tanks.
+keywords:
+  - think tanks
+  - funding transparency
+  - data visualization
+  - Washington DC
+  - policy research
+license: MIT

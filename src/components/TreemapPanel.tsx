@@ -24,7 +24,7 @@ export function TreemapPanel({ tanks }: { tanks: ThinkTank[] }) {
         children: g.tanks.map(t => ({
           name: t.name,
           value: Math.max(Math.sqrt(t.totalFunding + 1) * 100, 5000),
-          actualFunding: t.totalFunding, isDarkMoney: t.isDarkMoney,
+          actualFunding: t.totalFunding, hasNoTrackedFunding: t.hasNoTrackedFunding,
           ideology: t.ideology, transparency: t.transparencyScore,
         })),
       })),
@@ -43,7 +43,7 @@ export function TreemapPanel({ tanks }: { tanks: ThinkTank[] }) {
     svg.attr('width', width).attr('height', height);
 
     const defs = svg.append('defs');
-    const pattern = defs.append('pattern').attr('id', 'darkMoneyPattern').attr('width', 5).attr('height', 5).attr('patternUnits', 'userSpaceOnUse').attr('patternTransform', 'rotate(45)');
+    const pattern = defs.append('pattern').attr('id', 'noTrackedFundingPattern').attr('width', 5).attr('height', 5).attr('patternUnits', 'userSpaceOnUse').attr('patternTransform', 'rotate(45)');
     pattern.append('rect').attr('width', 5).attr('height', 5).attr('fill', '#f3f4f6');
     pattern.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 5).attr('stroke', '#d1d5db').attr('stroke-width', 1.5);
 
@@ -65,8 +65,8 @@ export function TreemapPanel({ tanks }: { tanks: ThinkTank[] }) {
       .attr('x', (d: any) => d.x0 + 0.5).attr('y', (d: any) => d.y0 + 0.5)
       .attr('width', (d: any) => Math.max(0, d.x1 - d.x0 - 1)).attr('height', (d: any) => Math.max(0, d.y1 - d.y0 - 1))
       .attr('rx', 3)
-      .attr('fill', (d: any) => { if (d.data.isDarkMoney) return 'url(#darkMoneyPattern)'; const color = d3.color(IDEOLOGY_COLORS[d.data.ideology as Ideology])!; return color.brighter(0.8).toString(); })
-      .attr('stroke', (d: any) => { const c = d3.color(IDEOLOGY_COLORS[d.data.ideology as Ideology])!; return d.data.isDarkMoney ? '#d1d5db' : c.darker(0.2).toString(); })
+      .attr('fill', (d: any) => { if (d.data.hasNoTrackedFunding) return 'url(#noTrackedFundingPattern)'; const color = d3.color(IDEOLOGY_COLORS[d.data.ideology as Ideology])!; return color.brighter(0.8).toString(); })
+      .attr('stroke', (d: any) => { const c = d3.color(IDEOLOGY_COLORS[d.data.ideology as Ideology])!; return d.data.hasNoTrackedFunding ? '#d1d5db' : c.darker(0.2).toString(); })
       .attr('stroke-width', 0.5).style('cursor', 'pointer')
       .on('mouseover', function (event: MouseEvent, d: any) {
         d3.select(this).attr('stroke-width', 2).attr('stroke', '#111');
@@ -76,13 +76,13 @@ export function TreemapPanel({ tanks }: { tanks: ThinkTank[] }) {
             <div>Ideology: {d.data.ideology}</div>
             <div>Total Funding: {formatCurrency(d.data.actualFunding)}</div>
             <div>Transparency: {'★'.repeat(d.data.transparency)}{'☆'.repeat(5 - d.data.transparency)}</div>
-            {d.data.isDarkMoney && <div style={{ color: '#fca5a5', marginTop: 4 }}>Dark Money — No disclosed funding</div>}
+            {d.data.hasNoTrackedFunding && <div style={{ color: '#fca5a5', marginTop: 4 }}>No tracked funding in sampled categories</div>}
           </div>
         ));
       })
       .on('mouseout', function (_: MouseEvent, d: any) {
         const c = d3.color(IDEOLOGY_COLORS[d.data.ideology as Ideology])!;
-        d3.select(this).attr('stroke-width', 0.5).attr('stroke', d.data.isDarkMoney ? '#d1d5db' : c.darker(0.2).toString());
+        d3.select(this).attr('stroke-width', 0.5).attr('stroke', d.data.hasNoTrackedFunding ? '#d1d5db' : c.darker(0.2).toString());
         hide();
       });
 
@@ -93,7 +93,7 @@ export function TreemapPanel({ tanks }: { tanks: ThinkTank[] }) {
       .text((d: any) => { const w = d.x1 - d.x0; if (w < 45) return ''; const maxChars = Math.floor(w / 6); return d.data.name.length > maxChars ? d.data.name.substring(0, maxChars - 1) + '…' : d.data.name; });
     leaves.append('text')
       .attr('x', (d: any) => d.x0 + 4).attr('y', (d: any) => d.y0 + 24).attr('fill', '#6b7280').attr('font-size', 7)
-      .text((d: any) => { const w = d.x1 - d.x0; const h = d.y1 - d.y0; if (w < 55 || h < 30) return ''; return d.data.isDarkMoney ? 'undisclosed' : formatCurrency(d.data.actualFunding); });
+      .text((d: any) => { const w = d.x1 - d.x0; const h = d.y1 - d.y0; if (w < 55 || h < 30) return ''; return d.data.hasNoTrackedFunding ? 'not tracked here' : formatCurrency(d.data.actualFunding); });
   }, [hierarchy, show, hide]);
 
   useResizeAwareDraw(containerRef, draw);

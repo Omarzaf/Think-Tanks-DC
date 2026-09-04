@@ -16,7 +16,7 @@ export const IDEOLOGY_COLORS: Record<Ideology, string> = {
   'Right': '#991b1b',
 };
 
-export const DARK_MONEY_COLOR = '#e5e7eb';
+export const NO_TRACKED_FUNDING_COLOR = '#e5e7eb';
 export const BG_COLOR = '#faf9f6';
 export const PANEL_BG = '#ffffff';
 export const TEXT_COLOR = '#1a1a1a';

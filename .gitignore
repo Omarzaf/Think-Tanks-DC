@@ -22,7 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.github/workflows/
 # Archives
 *.zip
 *.tar.gz
