@@ -1,6 +1,6 @@
 # Think-Tanks-DC
 
-Think-Tanks-DC is a public React and D3 dashboard for exploring disclosed funding, transparency, and revolving-door patterns across 75 Washington-area think tanks. It packages the current research snapshot as a reproducible browser build and a source-auditable dataset surface.
+Think-Tanks-DC is a public React and D3 dashboard for exploring disclosed funding, transparency, and revolving-door patterns across 75 Washington-area think tanks. It packages the current research snapshot as a reproducible browser build and a source-attributed dataset with explicit provenance gaps.
 
 ## Status
 
@@ -27,6 +27,7 @@ The dashboard does not track every funding stream. A think tank with no tracked 
 ## Methodology And Sources
 
 - Local methodology: [docs/METHODOLOGY.md](docs/METHODOLOGY.md)
+- Data and provenance boundary: [DATA_AND_PROVENANCE_NOTICE.md](DATA_AND_PROVENANCE_NOTICE.md)
 - Original share link preserved inside the methodology document
 - Primary source families documented in the repo:
   - think tank self-disclosure pages
@@ -34,7 +35,7 @@ The dashboard does not track every funding stream. A think tank with no tracked 
   - USASpending.gov
   - OpenSecrets cross-checks
 
-Every transaction row in `src/data/transactions.ts` carries a source URL. Funding aggregates use floor values when institutions disclose ranges rather than exact figures.
+Of the 2,682 transaction rows in `src/data/transactions.ts`, 2,676 carry an HTTP(S)-formatted source URL. Six legacy rows have no source URL and are enumerated in the data and provenance notice; they remain unresolved rather than being filled with inferred citations. URL presence does not guarantee that a source remains reachable. Funding aggregates use floor values when institutions disclose ranges rather than exact figures.
 
 ## Setup
 
@@ -63,7 +64,7 @@ The GitHub Pages workflow builds the same `dist/` output from `main`.
 - Zero tracked funding in this repo means no tracked funding in the sampled categories, not evidence of non-disclosure, dark money, or innocence.
 - Totals are lower bounds when the original disclosure reported a range.
 - Funding relationships do not by themselves establish policy causation.
-- A small number of legacy rows still have unresolved provenance gaps or archived wrapper URLs; treat those records as flagged research leads rather than fully normalized citations.
+- Six legacy rows have unresolved provenance gaps, while some other citations intentionally use public Web Archive URLs; treat the six enumerated records as flagged research leads rather than fully sourced observations.
 - Data freshness depends on the underlying public disclosures cited in the dataset.
 
 ## Support
