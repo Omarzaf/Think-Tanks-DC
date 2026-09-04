@@ -127,7 +127,7 @@ describe('data processing helpers', () => {
 
   it('keeps repository transactions within documented source and year bounds', () => {
     const knownTanks = new Set(parseThinkTanks().map((tank) => tank.name));
-    let emptySourceCount = 0;
+    const missingSourceIds: number[] = [];
 
     for (const transaction of transactions) {
       expect(transaction.year).toBeGreaterThanOrEqual(2019);
@@ -136,17 +136,21 @@ describe('data processing helpers', () => {
       expect(transaction.minPlusExact).toBeGreaterThanOrEqual(0);
 
       if (transaction.source === '') {
-        emptySourceCount += 1;
+        missingSourceIds.push(transaction.id);
         continue;
       }
 
-      expect(
-        transaction.source.startsWith('https://') ||
-        transaction.source.startsWith('http://web.archive.org/') ||
-        transaction.source.startsWith('chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://')
-      ).toBe(true);
+      expect(transaction.source).toMatch(/^https?:\/\//);
+      expect(transaction.source).not.toContain('chrome-extension://');
     }
 
-    expect(emptySourceCount).toBe(6);
+    expect(missingSourceIds.sort((a, b) => a - b)).toEqual([
+      37971,
+      37973,
+      37975,
+      37977,
+      38390,
+      38593,
+    ]);
   });
 });
